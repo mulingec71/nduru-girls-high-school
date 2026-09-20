@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nduru GIRLS High School | Excellence in  services</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #003087;
+            --accent: #c8102e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        nav {
+            background: #003087;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 18px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 700; }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: #ffd700; }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100vw;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            transition: background-image 2s ease-in-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(0, 48, 135, 0.75), rgba(200, 16, 46, 0.65));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6.5vw, 3.8rem);
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            margin-bottom: 35px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        .slider-arrow:hover { background: var(--accent); }
+        .prev { left: 25px; }
+        .next { right: 25px; }
+
+        section { padding: 90px 20px; max-width: 1200px; margin: 0 auto; }
+        h2 { text-align: center; font-size: 2.6rem; margin-bottom: 55px; color: var(--primary); }
+
+        .programs-grid, .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 25px; }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Chatbot */
+        .chat-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 65px;
+            height: 65px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 2001;
+        }
+
+        #chatbot {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 340px;
+            height: 520px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .chat-message {
+            margin: 10px 0;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 85%;
+        }
+
+        .bot { background: #e3f2fd; align-self: flex-start; }
+        .user { background: var(--accent); color: white; align-self: flex-end; }
+
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+        }
+
+        .chat-input button {
+            margin-left: 8px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #003087;
+                padding: 20px;
+                gap: 15px;
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .hero { height: 100dvh; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">NDURU HIGH SCHOOL</div>
+            <div class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#academics">Academics</a>
+                <a href="#news">News</a>
+                <a href="#events">Events</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <button class="slider-arrow prev" onclick="prevImage()">‹</button>
+        <button class="slider-arrow next" onclick="nextImage()">›</button>
+        <div class="hero-content">
+            <h1>Welcome to Nduru High School</h1>
+            <p>Shaping Future Leaders Through Quality Education, Discipline & Excellence</p>
+            <a href="#contact" class="btn">Enquire Now</a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2>About Nduru High School</h2>
+        <p style="text-align:center; max-width:800px; margin:0 auto 40px;">
+            Nduru High School is a reputable public secondary school committed to academic excellence, character development, 
+            and holistic growth. Located in Kisii County, we provide quality education in a disciplined and supportive environment.
+        </p>
+    </section>
+
+     <!-- Academic Programs -->
+    <section id="academics" style="background:#f8f9fa;">
+        <h2>Academic Programs</h2>
+        <div class="programs-grid">
+            <div class="card">
+                <img src="CM lab.jpg" alt="Science">
+                <div class="card-content">
+                    <h3>Science Stream</h3>
+                    <p>Biology, Chemistry, Physics, Mathematics</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="class.jpg" alt="Humanities">
+                <div class="card-content">
+                    <h3>Humanities & Arts</h3>
+                    <p>History, Geography, CRE/IRE, Kiswahili, English</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="agri.jpg" alt="Business">
+                <div class="card-content">
+                    <h3>Business Studies</h3>
+                    <p>Business Studies, Agriculture, Computer Studies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News -->
+    <section id="news">
+        <h2>Latest News</h2>
+        <div class="news-grid">
+            <div class="card">
+                <img src="graduation.jpg" alt="Humanities">
+                <div class="card-content">
+                    <h3>2025 KCSE Results Released</h3>
+                    <p>Nduru High School recorded another impressive performance with a mean score of 8.9.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="info lab 2.jpg" alt="Humanities">
+                <div class="card-content">
+                    <h3>New Science Laboratory Inaugurated</h3>
+                    <p>The school has opened a modern laboratory to enhance practical learning.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="ftbl.jpg" alt="Humanities">
+                <div class="card-content">                 
+                    <h3>Annual Sports Day Success</h3>
+                    <p>Our students excelled in athletics and football during the county championships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section id="events" class="events">
+        <h2>Upcoming Events</h2>
+        <div class="programs-grid">
+            <div class="card">
+                <img src="btm1.jpg" alt="Nduru high school">
+                <div class="card-content">
+                    <h3>Parents' Meeting</h3>
+                    <p><strong>Date:</strong> May 15, 2026</p>
+                    <p>Discussion on academic progress and school development.</p>
+                </div>
+            </div>
+            <div class="card">
+                 <img src="gala.jpg" alt="Nduru high school">
+                <div class="card-content">
+                    <h3>School Cultural Day</h3>
+                    <p><strong>Date:</strong> May 20, 2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <form action="https://formsubmit.co/davidchirwa243@gmail.com" method="POST">
+                <input type="text" name="name" placeholder="Parent/Guardian Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="tel" name="phone" placeholder="Phone Number">
+                <textarea name="message" rows="6" placeholder="Your Message or Inquiry..." required></textarea>
+                <input type="hidden" name="_subject" value="New Enquiry - Nduru High School">
+                <input type="hidden" name="_captcha" value="false">
+                <button type="submit" class="btn" style="width:100%; margin-top:15px;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Nduru High School. All Rights Reserved.</p>
+        <p>Excellence • Discipline • Integrity</p>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+
+    <!-- Chatbot Intelligent -->
+    <div id="chatbot">
+        <div class="chat-header">
+            Nduru High School Support
+            <span style="float:right; cursor:pointer; font-size:20px;" onclick="toggleChat()">✕</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot">Hello! 👋 Welcome.<br>May I know your name please?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type here..." onkeypress="if(event.key === 'Enter') handleChatInput()">
+            <button onclick="handleChatInput()">Send</button>
+        </div>
+    </div>
+
+    <!-- Formulaire caché pour envoyer les messages du chatbot -->
+    <form id="hiddenChatForm" action="https://formsubmit.co/davidchirwa243@gmail.com" method="POST" style="display:none;">
+        <input type="hidden" name="name" id="hiddenName">
+        <input type="hidden" name="email" id="hiddenEmail">
+        <input type="hidden" name="message" id="hiddenMessage">
+        <input type="hidden" name="_subject" value="New Chatbot Message - Nduru High School">
+        <input type="hidden" name="_captcha" value="false">
+    </form>
+
+    <script>
+        // Slider
+        const hero = document.getElementById('home');
+        const images = [
+            "parents.jpg",
+            "info lab.jpg",
+            "info lab 2.jpg",
+            "library.jpg",
+            "std.jpg",
+            "ftbl.jpg",
+            "agri.jpg",
+            "CM lab.jpg"
+        ];
+        let currentIndex = 0;
+        function showImage(i) { hero.style.backgroundImage = `url('${images[i]}')`; }
+        function nextImage() { currentIndex = (currentIndex + 1) % images.length; showImage(currentIndex); }
+        function prevImage() { currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(currentIndex); }
+        setInterval(nextImage, 6000);
+        window.addEventListener('load', () => showImage(0));
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+        // === CHATBOT INTELLIGENT ===
+        let chatStep = 0;
+        let userName = "";
+        let userEmail = "";
+        let userMessage = "";
+
+        function toggleChat() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.style.display = (chatbot.style.display === 'flex') ? 'none' : 'flex';
+            
+            if (chatbot.style.display === 'flex' && chatStep === 0) {
+                document.getElementById('chatBody').innerHTML = `<div class="chat-message bot">Hello! 👋 Welcome to Nduru High School.<br><br>May I know your name please?</div>`;
+                chatStep = 1;
+            }
+        }
+
+        function handleChatInput() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBody = document.getElementById('chatBody');
+            chatBody.innerHTML += `<div class="chat-message user">${text}</div>`;
+
+            if (chatStep === 1) {
+                userName = text;
+                chatBody.innerHTML += `<div class="chat-message bot">Nice to meet you, ${userName}!<br>What is your email address?</div>`;
+                chatStep = 2;
+            } 
+            else if (chatStep === 2) {
+                userEmail = text;
+                chatBody.innerHTML += `<div class="chat-message bot">Thank you!<br>Now, please type your message or question:</div>`;
+                chatStep = 3;
+            } 
+            else if (chatStep === 3) {
+                userMessage = text;
+
+                // Envoi via formulaire caché (plus fiable)
+                document.getElementById('hiddenName').value = userName;
+                document.getElementById('hiddenEmail').value = userEmail;
+                document.getElementById('hiddenMessage').value = userMessage;
+
+                document.getElementById('hiddenChatForm').submit();
+
+                chatBody.innerHTML += `<div class="chat-message bot">Thank you, ${userName}!<br>We have received your message.<br>We will reply to you soon at <strong>${userEmail}</strong>.</div>`;
+                
+                // Reset
+                chatStep = 0;
+                userName = userEmail = userMessage = "";
+            }
+
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    </script>
+</body>
+</html>
